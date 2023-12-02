@@ -4,6 +4,7 @@ Views for users app
 from django.shortcuts import render, redirect
 from users.forms import UserRegistrationForm
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 
 def register(request):
@@ -21,3 +22,11 @@ def register(request):
     else:
         form = UserRegistrationForm()
     return render(request, 'users/register.html', {'form': form})
+
+
+@login_required
+def profile(request):
+    """
+    Create a profile route for our users
+    """
+    return render(request, 'users/profile.html')
