@@ -10,7 +10,9 @@ urlpatterns = [
          name='LifeLoader-login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'),
          name='LifeLoader-logout'),
-    path('profile/', views.profile, name="LifeLoader-profile")
+    path('profile/', views.profile, name="LifeLoader-profile"),
+    path('profile/<str:username>/', views.view_profile,
+         name="LifeLoader-view_profile"),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,

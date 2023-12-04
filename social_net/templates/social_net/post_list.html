@@ -10,7 +10,7 @@
                 <div class="media-body">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
-                            <a class="ms-1" href="#">{{ post.author }}</a>
+                            <a class="ms-1" href="{% url 'LifeLoader-view_profile' post.author %}">{{ post.author }}</a>
                             <small class="text-muted">{{ post.date_created }}</small>
                         </div>
                     </div>

@@ -1,10 +1,11 @@
 """
 Views for users app
 """
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from users.forms import UserRegistrationForm, UserUpdateForm, ProfileUpdateForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 
 
 def register(request):
@@ -47,3 +48,23 @@ def profile(request):
         'profile_form': profile_form
     }
     return render(request, 'users/profile.html', handle_forms)
+
+
+@login_required
+def view_profile(request, username):
+    """
+    View for viewing other users' profiles.
+    Redirects the logged-in user to their editable profile if 
+    they try to view their own profile.
+    """
+    viewed_user = get_object_or_404(User, username=username)
+
+    # Check if the viewed profile belongs to the logged-in user
+    if request.user == viewed_user:
+        # Redirect to editable profile view
+        return redirect('LifeLoader-profile')
+
+    context = {
+        'viewed_user': viewed_user,
+    }
+    return render(request, 'users/view_profile.html', context)
