@@ -1,12 +1,15 @@
 """
 Views File
 """
+from typing import Any
+from django.db.models.query import QuerySet
 from django.forms.models import BaseModelForm
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from social_net.models import Post
+from django.contrib.auth.models import User
 
 
 class PostListView(ListView):
@@ -14,6 +17,22 @@ class PostListView(ListView):
     model = Post
     context_object_name = 'posts'
     ordering = ['-date_created']
+    paginate_by = 5
+
+
+class UserPostListView(ListView):
+    """ A class for listing posts of a specific user """
+    model = Post
+    template_name = 'social_net/user_posts.html'
+    context_object_name = 'posts'
+    paginate_by = 5
+
+    def get_queryset(self):
+        """
+        Get the posts by specific user
+        """
+        user = get_object_or_404(User, username=self.kwargs['username'])
+        return Post.objects.filter(author=user).order_by('-date_created')
 
 
 class PostDetailView(DetailView):

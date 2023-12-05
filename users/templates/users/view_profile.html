@@ -13,5 +13,8 @@
       <h4> About </h4>
       <p class="text-muted">{{ viewed_user.profile.bio }}</p>
     </div>
+    <div class="form-group">
+        <a class="btn btn-outline-dark mb-2" href="{% url 'LifeLoader-user_posts' viewed_user.username %}">View Posts </a>
+      </div>
    </div>
 {% endblock content %}
