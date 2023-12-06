@@ -2,7 +2,7 @@
 Views for users app
 """
 from django.shortcuts import render, redirect, get_object_or_404
-from users.forms import UserRegistrationForm, UserUpdateForm, ProfileUpdateForm
+from users.forms import UserRegistrationForm, UserUpdateForm, ProfileUpdateForm, UserSearchForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -68,3 +68,22 @@ def view_profile(request, username):
         'viewed_user': viewed_user,
     }
     return render(request, 'users/view_profile.html', context)
+
+
+def user_search(request):
+    """ View for searching about users using username """
+    users = []
+
+    if request.method == 'POST':
+        form = UserSearchForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            users = User.objects.filter(username__icontains=username)
+
+    else:
+        form = UserSearchForm()
+    context = {
+        'form': form,
+        'users': users
+    }
+    return render(request, 'users/user_search.html', context)

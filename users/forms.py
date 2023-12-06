@@ -41,3 +41,10 @@ class ProfileUpdateForm(forms.ModelForm):
         """ Set required to False for the 'bio' field """
         super(ProfileUpdateForm, self).__init__(*args, **kwargs)
         self.fields['bio'].required = False
+
+
+class UserSearchForm(forms.Form):
+    """
+    Creating a search form, to search for users using username
+    """
+    username = forms.CharField(max_length=250, label='Search Username')

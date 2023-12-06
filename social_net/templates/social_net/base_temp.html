@@ -25,6 +25,11 @@
                 <div class="navbar-nav me-auto">
                     <a class="nav-item nav-link" href="{% url 'LifeLoader-home' %}">Home</a>
                     <a class="nav-item nav-link" href="{% url 'LifeLoader-about' %}">About</a>
+                    <form id="user-search-form" method="post" action="{% url 'LifeLoader-user_search' %}" class="d-flex">
+                      {% csrf_token %}
+                      <input type="text" name="username" class="form-control ms-2 me-2" placeholder="Search users" aria-label="Search">
+                      <button type="submit" class="btn btn-outline-info">Search</button>
+                  </form>
                 </div>
                 <div class="navbar-nav ms-auto">
                   {% if user.is_authenticated %}

@@ -20,8 +20,8 @@ urlpatterns = [
     path('password_reset_confirm/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(
          template_name='users/password_reset_confirm.html'), name='password_reset_confirm'),
     path('password_reset_complete/', auth_views.PasswordResetCompleteView.as_view(
-         template_name='users/password_reset_complete.html'), name='password_reset_complete')
-
+         template_name='users/password_reset_complete.html'), name='password_reset_complete'),
+    path('search/', views.user_search, name='LifeLoader-user_search')
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,
