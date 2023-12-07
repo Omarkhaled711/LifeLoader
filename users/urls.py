@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
@@ -21,7 +21,8 @@ urlpatterns = [
          template_name='users/password_reset_confirm.html'), name='password_reset_confirm'),
     path('password_reset_complete/', auth_views.PasswordResetCompleteView.as_view(
          template_name='users/password_reset_complete.html'), name='password_reset_complete'),
-    path('search/', views.user_search, name='LifeLoader-user_search')
+    path('search/', views.user_search, name='LifeLoader-user_search'),
+    path('api/v1/', include('users.api.v1.urls'))
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,
