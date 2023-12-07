@@ -1,4 +1,6 @@
 {% extends "social_net/base_temp.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
 {% block content %}
     <article class="media content-section">
         <div class="row">
@@ -18,14 +20,56 @@
                     <p class="article-content">{{ post.content }}</p>
                     {% if post.author == user %}
                         <div>
-                            <a class="btn btn-outline-primary mb-2 me-3" href="{% url 'LifeLoader-post_delete' post.id%}">Update</a>
-                            <a class="btn btn-outline-danger mb-2" href="{% url 'LifeLoader-post_delete' post.id%}">Delete</a>
+                            <a class="btn btn-outline-primary mb-2 me-3" href="{% url 'LifeLoader-post_update' post.id %}">Update</a>
+                            <a class="btn btn-outline-danger mb-2" href="{% url 'LifeLoader-post_delete' post.id %}">Delete</a>
                         </div>
-                    {% endif %}
+                        {% endif %}
+                        <!-- Display number of likes -->
+                        <h5 class="text-muted">
+                            Likes (<span class="likes-count me-20">{{ post.likes.count }}</span>)
+                        </h5>
+                    
+                        {% if user.is_authenticated %}
+                            {% if user in post.likes.all %}
+                            <button class="like-btn hidden" data-post-id="{{ post.id }}" data-is-liked="false">Like</button>
+                            <button class="unlike-btn" data-post-id="{{ post.id }}" data-is-liked="true">Unlike</button>
+                            {% else %}
+                            <button class="unlike-btn hidden" data-post-id="{{ post.id }}" data-is-liked="true">Unlike</button>
+                            <button class="like-btn" data-post-id="{{ post.id }}" data-is-liked="false">Like</button>
+                            {% endif %}
+                        {% else %}
+                            <p class="alert alert-info">Log in to like this post.</p>
+                        {% endif %}
+            
                 </div>
             </div>
         </div>
     </article>
+
+        <div class="comments-section mt-4" >
+        <!-- Display existing comments -->
+        <h3 class="text-muted">Comments ({{ comments.count }})</h3>
+        {% if comments %}
+            <div id="comments-container" data-post-id="{{ post.id }}">
+                <!--Return the comments using jquery and the api-->
+            </div>
+            <script type="text/javascript" src="{% static 'social_net/js/post_comments.js' %}"></script>    
+        {% else %}
+            <p class="ms-2">No comments yet</p>
+        {% endif %}
+
+
+        <!-- Comment Form (display only if user is logged in) -->
+        {% if user.is_authenticated %}
+            <h3 class="text-muted">Add a Comment</h3>
+            <form method="post" action="{% url 'LifeLoader-post_detail' pk=post.pk %}">
+                {% csrf_token %}
+                {{ comment_form|crispy|safe }}
+                <button type="submit" class="btn btn-primary">Post Comment</button>
+            </form>
+        {% else %}
+            <p class="alert alert-info">Log in to leave a comment.</p>
+        {% endif %}
+    </div>
+    <script type="text/javascript" src="{% static 'social_net/js/posts_likes.js' %}"></script>
 {% endblock content %}
-
-

@@ -14,5 +14,6 @@ urlpatterns = [
     path('post/<int:pk>/delete/', views.PostDeleteView.as_view(),
          name="LifeLoader-post_delete"),
     path('about/', views.about, name="LifeLoader-about"),
-    path('api/v1/', include('social_net.api.v1.urls'))
+    path('api/v1/', include('social_net.api.v1.urls')),
+    path('like_post/<int:pk>/', views.LikePostView.as_view(), name='like_post')
 ]

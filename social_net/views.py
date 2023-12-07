@@ -6,10 +6,14 @@ from django.db.models.query import QuerySet
 from django.forms.models import BaseModelForm
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
+from django.urls import reverse
+from django.views import View
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from social_net.models import Post
+from social_net.models import Post, Comment, Like
 from django.contrib.auth.models import User
+from social_net.forms import CommentForm
+from django.http import JsonResponse
 
 
 class PostListView(ListView):
@@ -35,10 +39,48 @@ class UserPostListView(ListView):
         return Post.objects.filter(author=user).order_by('-date_created')
 
 
+class LikePostView(View):
+    """handle likes"""
+
+    def post(self, request, pk):
+        post = get_object_or_404(Post, pk=pk)
+        user = request.user
+
+        # Check if the user has already liked the post
+        if user in post.likes.all():
+            post.likes.remove(user)
+            is_liked = False
+        else:
+            post.likes.add(user)
+            is_liked = True
+
+        likes_count = post.likes.count()
+
+        return JsonResponse({"likes_count": likes_count, "is_liked": is_liked})
+
+
 class PostDetailView(DetailView):
     """ A class for viewing a certain post """
     model = Post
     context_object_name = 'post'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        post = self.get_object()
+        comments = Comment.objects.filter(post=post)
+        context['comments'] = comments
+        context['comment_form'] = CommentForm()
+        return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.user = self.request.user
+            comment.post = self.object
+            comment.save()
+        return self.render_to_response(self.get_context_data())
 
 
 class PostCreateView(LoginRequiredMixin, CreateView):
