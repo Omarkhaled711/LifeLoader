@@ -20,6 +20,20 @@ class PostListView(generics.ListAPIView):
     pagination_class = CustomPageNumberPagination
 
 
+class PostListViewTopLikes(generics.ListAPIView):
+    queryset = Post.objects.annotate(likes_count=Count(
+        'likes'), comments_count=Count('comments')).order_by('-likes_count', '-comments_count', '-date_created')
+    serializer_class = PostSerializer
+    pagination_class = CustomPageNumberPagination
+
+
+class PostListViewTopComments(generics.ListAPIView):
+    queryset = Post.objects.annotate(likes_count=Count(
+        'likes'), comments_count=Count('comments')).order_by('-comments_count', '-likes_count', '-date_created')
+    serializer_class = PostSerializer
+    pagination_class = CustomPageNumberPagination
+
+
 class UserPostListView(generics.ListAPIView):
     """
     A class for filtering posts based on users

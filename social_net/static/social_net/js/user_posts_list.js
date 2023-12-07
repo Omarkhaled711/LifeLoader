@@ -44,6 +44,10 @@ function displayPosts(posts) {
                                     <hr class="my-2"> <!-- Horizontal line between name/date and post title/content -->
                                     <h2><a class="article-title" href="${postUrl}">${post.title}</a></h2>
                                     <p class="article-content">${post.content}</p>
+                                    <div class="text-muted">
+                                    <small>Likes: ${post.likes_count}</small>
+                                    <small class="ms-2">Comments: ${post.comments_count}</small>
+                                </div>
                                 </div>
                             </div>
                         </div>
