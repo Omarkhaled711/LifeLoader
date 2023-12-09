@@ -22,11 +22,11 @@ class Profile(models.Model):
         """
         return f'{self.user.username} profile'
 
-    def save(self):
+    def save(self, *args, **kwargs):
         """
         Resizing the profile picture if it's too big.
         """
-        super().save()
+        super().save(*args, **kwargs)
         # Open the uploaded image using Pillow
         img = Image.open(self.profile_pic.path)
         # Set a maximum size

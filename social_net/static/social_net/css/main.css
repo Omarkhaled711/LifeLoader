@@ -1,9 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;700&display=swap');
+
+.landing_heading {
+  font-family: Sora, "sans-serif";
+  line-height: 1.7;
+  color: white;
+}
 body {
     background: #fafafa;
     color: #333333;
-    margin-top: 5rem;
+    margin-top: 0;
   }
-  
+  .Home_body {
+    margin-top: 5em;
+  }
   h1, h2, h3, h4, h5, h6 {
     color: #444444;
   }
@@ -84,4 +93,45 @@ body {
   }
   .hidden {
     display: none;
+}
+.landing_page {
+  background-image: url(../images/landing.jpg);
+  background-position: center;
+  background-size: cover;
+  color: white;
+  position: relative;
+  z-index: 2;
+}
+.landing_page::after {
+  content: "";
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgb(21, 20, 51, 0.8);
+  z-index: -1;
+}
+.section {
+  padding-top: 120px;
+  padding-bottom: 120px;
+}
+.card-effect {
+  box-shadow: 0 8px 22px rgba(0,0,0,0.1);
+  background-color: white;
+  padding: 25px;
+  transition: all 0.35s ease;
+}
+.card-effect:hover {
+  box-shadow: none;
+  transform: translateY(5px);
+}
+.iconbox {
+  width: 54px;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  border-radius: 100px;
 }

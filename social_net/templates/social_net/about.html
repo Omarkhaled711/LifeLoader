@@ -1,35 +1,86 @@
 {% extends "social_net/base_temp.html" %}
 
 
-{% block content %}
-  <div class="container mt-5">
-    <div class="row">
-      <div class="col-md-8">
-        <div class="about-content">
-          <h2>About LifeLoader</h2>
-          <p>
-            Welcome to LifeLoader, your destination for blogging and social networking. Connect with others, share your thoughts, and explore a vibrant community.
-          </p>
-
-          <h4>Features</h4>
-          <ul class="list-group ms-4">
-            <li>Write and publish posts</li>
-            <li>Like and comment on posts</li>
-            <li>View other people's profiles</li>
-            <li>Search for other users</li>
-            <li>Sort posts by latest, top by comments, and top by likes</li>
-            <li>Upload and automatically resize profile pictures</li>
-            <li>Update your username, bio, and email</li>
-            <li>Reset your password</li>
-          </ul>
-
-          <p class="mt-4">
-            Join us on this journey of creativity, expression, and connection. LifeLoader is where stories unfold and connections thrive.
-          </p>
+{% block landing_page %}
+<div class="hero vh-100 d-flex align-items-center landing_page">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h1 class="display-4 landing_heading">Lifeloader: Loading Moments, Sharing Lives</h1>
+                <p class="mb-4">
+                    Welcome to LifeLoader, your destination for blogging and social networking. Connect with others,
+                    share your thoughts, and explore a vibrant community.
+                </p>
+                <a href=" {% url 'LifeLoader-home' %}" class="btn btn-primary">Start Reading</a>
+            </div>
         </div>
-      </div>
-
     </div>
-  </div>
-{% endblock %}
+</div>
+<section class="section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 mx-auto text-center">
+                <h1 class="text-primary">Features</h1>
+            </div>
+        </div>
+        <div class="row d-flex flex-wrap g-4 justify-content-center">
+            <div class="col-lg-4 col-sm-6 d-flex mb-4">
+                <div class="features card-effect flex-fill mx-auto">
+                    <div class="iconbox">
+                        <i class="bx bxs-comment-detail"></i>
+                    </div>
+                    <h5>Content Creation and User Interaction </h5>
+                    <ol>
+                        <li> Write and publish posts: Share your thoughts and experiences with the community.</li>
+                        <li>Like and comment on posts: Engage with others by expressing your opinions and appreciation
+                        </li>
+                    </ol>
+                </div>
+            </div>
+            <div class="col-lg-4 col-sm-6 d-flex mb-4">
+                <div class="features card-effect flex-fill mx-auto">
+                    <div class="iconbox">
+                        <i class='bx bxs-user-rectangle'></i>
+                    </div>
+                    <h5> Profile Management</h5>
+                    <ol>
+                        <li>View other people's profiles: Explore and connect with users by checking out their profiles
+                        </li>
+                        <li>Upload and automatically resize profile pictures: Customize your profile with ease</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <div class="row d-flex flex-wrap g-4 justify-content-center">
 
+            <div class="col-lg-4 col-sm-6 d-flex mb-4">
+                <div class="features card-effect flex-fill mx-auto">
+                    <div class="iconbox">
+                        <i class='bx bx-search'></i>
+                    </div>
+                    <h5> Search and Discover</h5>
+                    <ol>
+                        <li>Search for other users: Easily find and connect with friends and like-minded individuals
+                        </li>
+                        <li>Sort posts by latest, top by comments, and top by likes: Tailor your feed to discover the
+                            most relevant content</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="col-lg-4 col-sm-6 d-flex mb-4">
+                <div class="features card-effect flex-fill mx-auto">
+                    <div class="iconbox">
+                        <i class='bx bxs-lock'></i>
+                    </div>
+                    <h5> Account Settings and Security</h5>
+                    <ol>
+                        <li>Update your username, bio, and email: Keep your profile information up-to-date</li>
+                        <li>Reset your password: Ensure the security of your account with password management</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+{% endblock %}
