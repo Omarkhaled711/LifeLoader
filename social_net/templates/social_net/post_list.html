@@ -1,37 +1,35 @@
 {% extends "social_net/base_temp.html" %}
 {% load static %}
 {% block content %}
-    <div id="posts-container">
-        <!-- Posts will be dynamically added here -->
-    </div>
+<div id="posts-container">
+    <!-- Posts will be dynamically added here -->
+</div>
 
-    <div id="pagination-container">
-        <!-- Pagination links will be dynamically added here -->
-    </div>
-    {% endblock content %}
-    {% block order %}
-    <div class="col-md-4 mt-2">
-        <div class="content-section">
-          <h3>Order By</h3>
-          <p class='text-muted'>
-            <div class="list-group">
-              <label>
-                  <input type="radio" name="postOrder" id="recentButton" value="posts" checked>
-                  Latest Posts
-              </label>
-              <label>
-                  <input type="radio" name="postOrder" id="topCommentsButton" value="posts/top_comments">
-                  Top Posts By Comments
-              </label>
-              <label>
-                  <input type="radio" name="postOrder" id="topLikesButton" value="posts/top_likes">
-                  Top Posts By Likes
-              </label>
-          </div>
-          </p>
+<div id="pagination-container">
+    <!-- Pagination links will be dynamically added here -->
+</div>
+{% endblock content %}
+{% block order %}
+<div class="col-md-4 mt-2">
+    <div class="content-section">
+        <h3>Order By</h3>
+        <p class='text-muted'>
+        <div class="list-group">
+            <label>
+                <input type="radio" name="postOrder" id="recentButton" value="posts" checked>
+                Latest Posts
+            </label>
+            <label>
+                <input type="radio" name="postOrder" id="topCommentsButton" value="posts/top_comments">
+                Top Posts By Comments
+            </label>
+            <label>
+                <input type="radio" name="postOrder" id="topLikesButton" value="posts/top_likes">
+                Top Posts By Likes
+            </label>
         </div>
-      </div>    
-      <script type="text/javascript" src="{% static 'social_net/js/post_list.js' %}"></script>
-    {%endblock %}
-
-    
+        </p>
+    </div>
+</div>
+<script type="text/javascript" src="{% static 'social_net/js/post_list.js' %}"></script>
+{%endblock %}

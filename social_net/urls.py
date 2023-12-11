@@ -2,8 +2,8 @@ from django.urls import path, include
 from social_net import views
 
 urlpatterns = [
-    path('', views.PostListView.as_view(), name="LifeLoader-home"),
-    path('posts/<str:username>/', views.UserPostListView.as_view(),
+    path('', views.post_list, name="LifeLoader-home"),
+    path('posts/<str:username>/', views.user_posts,
          name="LifeLoader-user_posts"),
     path('post/<int:pk>/', views.PostDetailView.as_view(),
          name="LifeLoader-post_detail"),

@@ -2,74 +2,69 @@
 {% load crispy_forms_tags %}
 {% load static %}
 {% block content %}
-    <article class="media content-section">
-        <div class="row">
-            <div class="col-md-1">
-                <img class="rounded-circle article-img" src="{{ post.author.profile.profile_pic.url }}" alt="post's author profile picture">
-            </div>
-            <div class="col-md-10 ms-3">
-                <div class="media-body">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <a class="ms-1" href="{% url 'LifeLoader-view_profile' post.author %}">{{ post.author }}</a>
-                            <small class="text-muted">{{ post.date_created }}</small>
-                        </div>
+<article class="media content-section">
+    <div class="row">
+        <div class="col-md-1">
+            <img class="rounded-circle article-img" src="{{ post.author.profile.profile_pic.url }}"
+                alt="post's author profile picture">
+        </div>
+        <div class="col-md-10 ms-3">
+            <div class="media-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <a class="ms-1" href="{% url 'LifeLoader-view_profile' post.author %}">{{ post.author }}</a>
+                        <small class="text-muted">{{ post.date_created }}</small>
                     </div>
-                    <hr class="my-2"> <!-- Horizontal line between name/date and post title/content -->
-                    <h2 class="article-title"> {{ post.title }}</h2>
-                    <p class="article-content">{{ post.content }}</p>
-                    {% if post.author == user %}
-                        <div>
-                            <a class="btn btn-outline-primary mb-2 me-3" href="{% url 'LifeLoader-post_update' post.id %}">Update</a>
-                            <a class="btn btn-outline-danger mb-2" href="{% url 'LifeLoader-post_delete' post.id %}">Delete</a>
-                        </div>
-                        {% endif %}
-                        <!-- Display number of likes -->
-                        <h5 class="text-muted">
-                            Likes (<span class="likes-count me-20">{{ post.likes.count }}</span>)
-                        </h5>
-                    
-                        {% if user.is_authenticated %}
-                            {% if user in post.likes.all %}
-                            <button class="like-btn hidden" data-post-id="{{ post.id }}" data-is-liked="false">Like</button>
-                            <button class="unlike-btn" data-post-id="{{ post.id }}" data-is-liked="true">Unlike</button>
-                            {% else %}
-                            <button class="unlike-btn hidden" data-post-id="{{ post.id }}" data-is-liked="true">Unlike</button>
-                            <button class="like-btn" data-post-id="{{ post.id }}" data-is-liked="false">Like</button>
-                            {% endif %}
-                        {% else %}
-                            <p class="alert alert-info">Log in to like this post.</p>
-                        {% endif %}
-            
                 </div>
+                <hr class="my-2"> <!-- Horizontal line between name/date and post title/content -->
+                <h2 class="article-title"> {{ post.title }}</h2>
+                <p class="article-content">{{ post.content }}</p>
+                {% if post.author == user %}
+                <div>
+                    <a class="btn btn-outline-primary mb-2 me-3"
+                        href="{% url 'LifeLoader-post_update' post.id %}">Update</a>
+                    <a class="btn btn-outline-danger mb-2" href="{% url 'LifeLoader-post_delete' post.id %}">Delete</a>
+                </div>
+                {% endif %}
+                <!-- Display number of likes -->
+                <h5 class="text-muted">
+                    Likes (<span class="likes-count me-20">{{ post.likes.count }}</span>)
+                </h5>
+
+                {% if user.is_authenticated %}
+                {% if user in post.likes.all %}
+                <button class="like-btn hidden" data-post-id="{{ post.id }}" data-is-liked="false">Like</button>
+                <button class="unlike-btn" data-post-id="{{ post.id }}" data-is-liked="true">Unlike</button>
+                {% else %}
+                <button class="unlike-btn hidden" data-post-id="{{ post.id }}" data-is-liked="true">Unlike</button>
+                <button class="like-btn" data-post-id="{{ post.id }}" data-is-liked="false">Like</button>
+                {% endif %}
+                {% else %}
+                <p class="alert alert-info">Log in to like this post.</p>
+                {% endif %}
+
             </div>
         </div>
-    </article>
-
-        <div class="comments-section mt-4" >
-        <!-- Display existing comments -->
-        <h3 class="text-muted">Comments ({{ comments.count }})</h3>
-        {% if comments %}
-            <div id="comments-container" data-post-id="{{ post.id }}">
-                <!--Return the comments using jquery and the api-->
-            </div>
-            <script type="text/javascript" src="{% static 'social_net/js/post_comments.js' %}"></script>    
-        {% else %}
-            <p class="ms-2">No comments yet</p>
-        {% endif %}
-
-
-        <!-- Comment Form (display only if user is logged in) -->
-        {% if user.is_authenticated %}
-            <h3 class="text-muted">Add a Comment</h3>
-            <form method="post" action="{% url 'LifeLoader-post_detail' pk=post.pk %}">
-                {% csrf_token %}
-                {{ comment_form|crispy|safe }}
-                <button type="submit" class="btn btn-primary">Post Comment</button>
-            </form>
-        {% else %}
-            <p class="alert alert-info">Log in to leave a comment.</p>
-        {% endif %}
     </div>
-    <script type="text/javascript" src="{% static 'social_net/js/posts_likes.js' %}"></script>
+</article>
+
+<div class="comments-section mt-4">
+    <!-- Display existing comments -->
+    <div id="comments-container" data-post-id="{{ post.id }}">
+        <!--Return the comments using jquery and the api-->
+    </div>
+    <!-- Comment Form (display only if user is logged in) -->
+    {% if user.is_authenticated %}
+    <h3 class="text-muted">Add a Comment</h3>
+    <form method="post" action="{% url 'LifeLoader-post_detail' pk=post.pk %}">
+        {% csrf_token %}
+        {{ comment_form|crispy|safe }}
+        <button type="submit" class="btn btn-primary">Post Comment</button>
+    </form>
+    {% else %}
+    <p class="alert alert-info">Log in to leave a comment.</p>
+    {% endif %}
+</div>
+<script type="text/javascript" src="{% static 'social_net/js/posts_likes.js' %}"></script>
+<script type="text/javascript" src="{% static 'social_net/js/post_comments.js' %}"></script>
 {% endblock content %}

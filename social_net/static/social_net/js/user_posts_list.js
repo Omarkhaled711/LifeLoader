@@ -3,11 +3,11 @@ function fetchPosts(username, page) {
     $.ajax({
         url: `/api/v1/user_posts/${username}/?page=${page}`,
         method: 'GET',
-        success: function(data) {
+        success: function (data) {
             displayPosts(data.results);
             displayPagination(username, data);
         },
-        error: function(error) {
+        error: function (error) {
             console.error('Error fetching user posts:', error);
         }
     });
@@ -18,13 +18,13 @@ function displayPosts(posts) {
     var container = $('#posts-container');
     container.empty();
 
-    $.each(posts, function(index, post) {
+    $.each(posts, function (index, post) {
         // Fetch user details separately
         $.ajax({
             url: `/api/v1/users/${post.author}/`,
             method: 'GET',
             async: false,
-            success: function(author) {
+            success: function (author) {
                 var profileUrl = `/profile/${author.user.username}/`;
                 var postUrl = `/post/${post.id}/`
                 var postHtml = `
@@ -55,7 +55,7 @@ function displayPosts(posts) {
                 `;
                 container.append(postHtml);
             },
-            error: function(error) {
+            error: function (error) {
                 console.error('Error fetching user details:', error);
             }
         });
@@ -120,13 +120,13 @@ function displayPagination(username, data) {
 }
 
 // Initial fetch when the page loads
-$(document).ready(function() {
+$(document).ready(function () {
     // Extract the username from the current URL
     var pathSegments = window.location.pathname.split('/');
     var lastSegmentIndex = pathSegments.length - 1;
-    
+
     // Check if the last segment is a backslash
     var username = pathSegments[lastSegmentIndex] === '' ? pathSegments[lastSegmentIndex - 1] : pathSegments[lastSegmentIndex];
-    
+
     fetchPosts(username, 1);
 });

@@ -5,7 +5,7 @@ from typing import Any
 from django.db.models.query import QuerySet
 from django.forms.models import BaseModelForm
 from django.http import HttpResponse
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.views import View
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -16,33 +16,21 @@ from social_net.forms import CommentForm
 from django.http import JsonResponse
 
 
-class PostListView(ListView):
-    """ A class for listing posts """
-    model = Post
-    context_object_name = 'posts'
-    ordering = ['-date_created']
-    paginate_by = 5
-
-
-class UserPostListView(ListView):
-    """ A class for listing posts of a specific user """
-    model = Post
-    template_name = 'social_net/user_posts.html'
-    context_object_name = 'posts'
-    paginate_by = 5
-
-    def get_queryset(self):
-        """
-        Get the posts by specific user
-        """
-        user = get_object_or_404(User, username=self.kwargs['username'])
-        return Post.objects.filter(author=user).order_by('-date_created')
-
-
 class LikePostView(View):
-    """handle likes"""
+    """
+    View for handling post likes.
+
+    Methods:
+        - post(request, pk): Handles the HTTP POST request to like/unlike a post.
+
+    Returns:
+        A JSON response containing the updated likes count and whether the user liked/unliked the post.
+    """
 
     def post(self, request, pk):
+        """
+        Handles the HTTP POST request to like/unlike a post.
+        """
         post = get_object_or_404(Post, pk=pk)
         user = request.user
 
@@ -60,19 +48,29 @@ class LikePostView(View):
 
 
 class PostDetailView(DetailView):
-    """ A class for viewing a certain post """
+    """
+    View for displaying a detailed view of a post.
+
+    Methods:
+        - get_context_data(**kwargs): Adds additional context data to be used in the template.
+        - post(request, *args, **kwargs): Handles the HTTP POST request to add a comment to the post.
+
+    Returns:
+        A detailed view of a post.
+    """
     model = Post
     context_object_name = 'post'
 
     def get_context_data(self, **kwargs):
+        """
+        Adds additional context data to be used in the template.
+        """
         context = super().get_context_data(**kwargs)
-        post = self.get_object()
-        comments = Comment.objects.filter(post=post)
-        context['comments'] = comments
         context['comment_form'] = CommentForm()
         return context
 
     def post(self, request, *args, **kwargs):
+        """ Handles the HTTP POST request to add a comment to the post."""
         self.object = self.get_object()
         form = CommentForm(request.POST)
         if form.is_valid():
@@ -80,35 +78,50 @@ class PostDetailView(DetailView):
             comment.user = self.request.user
             comment.post = self.object
             comment.save()
+            return redirect('LifeLoader-post_detail', self.object.id)
         return self.render_to_response(self.get_context_data())
 
 
 class PostCreateView(LoginRequiredMixin, CreateView):
-    """ A class for creating new posts """
+    """
+    View for creating new posts.
+
+    Methods:
+        - form_valid(form): Sets the author of the post to the current logged-in user.
+
+    Returns:
+        A view for creating new posts.
+    """
     model = Post
     fields = ['title', 'content']
 
     def form_valid(self, form):
-        """ linking the post being created to a specific user """
+        """ Sets the author of the post to the current logged-in user. """
         form.instance.author = self.request.user
         return super().form_valid(form)
 
 
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
-    """ A class for updating posts """
+    """
+    View for updating posts.
+
+    Methods:
+        - form_valid(form): Sets the author of the post to the current logged-in user.
+        - test_func(): Checks if the current user is the author of the post.
+
+    Returns:
+        A view for updating posts.
+    """
     model = Post
     fields = ['title', 'content']
 
     def form_valid(self, form):
-        """ linking the post being created to a specific user """
+        """ Sets the author of the post to the current logged-in user. """
         form.instance.author = self.request.user
         return super().form_valid(form)
 
     def test_func(self):
-        """ 
-        Allowing editing only if the current user is
-        the author of the post
-        """
+        """ Checks if the current user is the author of the post. """
         post = self.get_object()
         if post.author == self.request.user:
             return True
@@ -116,21 +129,56 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
 
 class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
-    """ A class for viewing a certain post """
+    """
+    View for deleting posts.
+
+    Methods:
+        - test_func(): Checks if the current user is the author of the post.
+
+    Returns:
+        A view for deleting posts.
+    """
     model = Post
     context_object_name = 'post'
     success_url = '/'
 
     def test_func(self):
-        """ 
-        Allowing editing only if the current user is
-        the author of the post
-        """
+        """ Checks if the current user is the author of the post. """
         post = self.get_object()
         if post.author == self.request.user:
             return True
         return False
 
 
+def post_list(request):
+    """
+    View for rendering the post list page.
+
+    Returns:
+        A rendered post list page.
+    """
+    return render(request, 'social_net/post_list.html')
+
+
+def user_posts(request, username):
+    """
+    View for rendering the user-specific posts page.
+
+    Parameters:
+        - request: The HTTP request object.
+        - username: The username of the target user.
+
+    Returns:
+        A rendered user-specific posts page.
+    """
+    return render(request, 'social_net/user_posts.html', {"username": username})
+
+
 def about(request):
+    """
+    View for rendering the about page.
+
+    Returns:
+        A rendered about page.
+    """
     return render(request, 'social_net/about.html', {"title": "About"})
