@@ -42,6 +42,9 @@ class PostSerializer(serializers.ModelSerializer):
     date_created = serializers.SerializerMethodField()
     likes_count = serializers.SerializerMethodField()
     comments_count = serializers.SerializerMethodField()
+    author_username = serializers.ReadOnlyField(source='author.username')
+    author_profile_pic = serializers.ReadOnlyField(
+        source='author.profile.profile_pic.url')
 
     def get_date_created(self, obj):
         """ Returns the formatted date_created for the post. """
@@ -57,7 +60,7 @@ class PostSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Post
-        fields = ['id', 'author', 'title', 'content',
+        fields = ['id', 'author', 'author_username', 'author_profile_pic', 'title', 'content',
                   'date_created', 'likes_count', 'comments_count']
 
 

@@ -25,54 +25,43 @@ $(document).ready(function () {
     fetchPosts(selectedEndpoint, 1);
     $('#order').show();
 });
+
 function displayPosts(posts) {
     var container = $('#posts-container');
     container.empty();
 
     $.each(posts, function (index, post) {
-        // Fetch user details separately
-        $.ajax({
-            url: `api/v1/users/${post.author}/`,
-            method: 'GET',
-            async: false,
-            success: function (author) {
-                var profileUrl = `/profile/${author.user.username}/`;
-                var postUrl = `/post/${post.id}/`
-                var postHtml = `
-                            <article class="media content-section">
-                                <div class="row">
-                                    <div class="col-md-1">
-                                        <img class="rounded-circle article-img" src="${author.profile_pic}" alt="post's author profile picture">
-                                    </div>
-                                    <div class="col-md-10 ms-3">
-                                        <div class="media-body">
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <div>
-                                                    <a class="ms-1" href="${profileUrl}">${author.user.username}</a>
-                                                    <small class="text-muted">${post.date_created}</small>
-                                                </div>
-                                            </div>
-                                            <hr class="my-2"> <!-- Horizontal line between name/date and post title/content -->
-                                            <h2><a class="article-title" href="${postUrl}">${post.title}</a></h2>
-                                            <p class="article-content">${post.content}</p>
-                                            <div class="text-muted">
-                                            <small>Likes: ${post.likes_count}</small>
-                                            <small class="ms-2">Comments: ${post.comments_count}</small>
-                                        </div>
-                                        </div>
-                                    </div>
+        var profileUrl = `/profile/${post.author_username}/`;
+        var postUrl = `/post/${post.id}/`
+        var postHtml = `
+            <article class="media content-section">
+                <div class="row">
+                    <div class="col-md-1">
+                        <img class="rounded-circle article-img" src="${post.author_profile_pic}" alt="post's author profile picture">
+                    </div>
+                    <div class="col-md-10 ms-3">
+                        <div class="media-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <a class="ms-1" href="${profileUrl}">${post.author_username}</a>
+                                    <small class="text-muted">${post.date_created}</small>
                                 </div>
-                            </article>
-                        `;
-                container.append(postHtml);
-            },
-            error: function (error) {
-                console.error('Error fetching user details:', error);
-            }
-        });
+                            </div>
+                            <hr class="my-2"> <!-- Horizontal line between name/date and post title/content -->
+                            <h2><a class="article-title" href="${postUrl}">${post.title}</a></h2>
+                            <p class="article-content">${post.content}</p>
+                            <div class="text-muted">
+                                <small>Likes: ${post.likes_count}</small>
+                                <small class="ms-2">Comments: ${post.comments_count}</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        `;
+        container.append(postHtml);
     });
 }
-
 
 // Function to display pagination links
 function displayPagination(data, apiEndpoint) {
