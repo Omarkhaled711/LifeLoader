@@ -9,7 +9,16 @@ from PIL import Image
 
 class Profile(models.Model):
     """
-    add a profiel model to the user
+    Extends the existing user model with custom functionalities.
+
+    Attributes:
+    - `user`: One-to-one relationship with the User model.
+    - `bio`: TextField for storing the user's biography.
+    - `profile_pic`: ImageField for storing the user's profile picture.
+
+    Methods:
+    - `__str__`: Descriptive representation of the profile object.
+    - `save`: Resizing the profile picture if it's too big.
     """
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.TextField(null=True)
@@ -18,7 +27,7 @@ class Profile(models.Model):
 
     def __str__(self):
         """
-        A __str__ method to be descriptive about the objects of this model
+        Descriptive representation of the profile object.
         """
         return f'{self.user.username} profile'
 

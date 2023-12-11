@@ -7,15 +7,29 @@ from rest_framework import status
 
 
 class ProfileListCreateView(generics.ListCreateAPIView):
+    """
+    API view for listing and creating profiles.
+
+    - `GET`: Retrieve a list of all profiles.
+    - `POST`: Create a new profile.
+    """
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
 
 
 class ProfileDetailView(generics.RetrieveAPIView):
+    """
+    API view for retrieving a specific profile.
+
+    - `GET`: Retrieve the profile for a given user ID.
+    """
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
 
     def retrieve(self, request, *args, **kwargs):
+        """
+        Retrieve the profile for the specified user ID.
+        """
         try:
             user_id = kwargs['user_id']
             # Use user__id to filter by user_id

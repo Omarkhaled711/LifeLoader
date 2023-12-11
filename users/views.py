@@ -10,7 +10,14 @@ from django.contrib.auth.models import User
 
 def register(request):
     """
-    Create registeration form
+    View for user registration.
+
+    - `GET`: Renders the registration form.
+    - `POST`: Handles form submission, creates a new user, and redirects to the login page.
+
+    Returns:
+    - Rendered registration form on GET.
+    - Redirects to login page on successful registration.
     """
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
@@ -28,7 +35,14 @@ def register(request):
 @login_required
 def profile(request):
     """
-    Create a profile route for our users
+    View for user profile management.
+
+    - `GET`: Renders the user profile form.
+    - `POST`: Handles form submission, updates user and profile information, and redirects to the profile page.
+
+    Returns:
+    - Rendered profile form on GET.
+    - Redirects to profile page on successful form submission.
     """
     if request.method == 'POST':
         user_form = UserUpdateForm(request.POST, instance=request.user)
@@ -54,8 +68,15 @@ def profile(request):
 def view_profile(request, username):
     """
     View for viewing other users' profiles.
-    Redirects the logged-in user to their editable profile if 
-    they try to view their own profile.
+
+    Redirects the logged-in user to their editable profile if they try to view their own profile.
+
+    Parameters:
+    - `username`: Username of the user whose profile is to be viewed.
+
+    Returns:
+    - Redirects to editable profile view if the logged-in user views their own profile.
+    - Renders the viewed user's profile on successful view.
     """
     viewed_user = get_object_or_404(User, username=username)
 
@@ -71,7 +92,16 @@ def view_profile(request, username):
 
 
 def user_search(request):
-    """ View for searching about users using username """
+    """
+    View for searching users by username.
+
+    - `GET`: Renders the user search form.
+    - `POST`: Handles form submission, searches for users, and displays the search results.
+
+    Returns:
+    - Rendered user search form on GET.
+    - Displays search results on successful form submission.
+    """
     users = []
 
     if request.method == 'POST':
