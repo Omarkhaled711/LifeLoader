@@ -6,25 +6,12 @@
 
 ## Table of Contents
 
-- [LifeLoader](#lifeloader)
-  - [Table of Contents](#table-of-contents)
-  - [Introduction](#introduction)
-    - [Technologies used](#technologies-used)
-  - [Features](#features)
-    - [User Authentication](#user-authentication)
-    - [Social Networking](#social-networking)
-    - [Profile Management](#profile-management)
-    - [Search Functionality](#search-functionality)
-    - [Landing Page](#landing-page)
-  - [API Endpoints](#api-endpoints)
-    - [1. View Posts Ordered by Latest](#1-view-posts-ordered-by-latest)
-    - [2. View Posts Ordered by Top Likes](#2-view-posts-ordered-by-top-likes)
-    - [3. View Posts Ordered by Top Comments](#3-view-posts-ordered-by-top-comments)
-    - [4. View Comments on a Specific Post](#4-view-comments-on-a-specific-post)
-    - [5. View Likes on a Specific Post](#5-view-likes-on-a-specific-post)
-    - [6. Fetch Data of All Users Profiles](#6-fetch-data-of-all-users-profiles)
-    - [7. View a Specific User Profile](#7-view-a-specific-user-profile)
-    - [8. Post Comment on a Specific Post (if logged in)](#8-post-comment-on-a-specific-post-if-logged-in)
+- [Introduction](#introduction)
+- [Features](#features)
+- [API Endpoints](#api-endpoints)
+- [Demo Video](#demo-video)
+- [Installation](#installation)
+- [License](#license)
 
 ## Introduction
 
@@ -266,3 +253,78 @@ These APIs are seamlessly integrated with jQuery, optimizing backend server perf
   *Added successfully*
     ![Post Comment on Post Screenshot](images/api_9.png)
 </details>
+
+## Demo Video
+
+Check out the demo video to see the features in action:
+
+[![Demo Video](images/landing.png)](demo_video/LifeLoader_demo.mp4)
+
+Click on the image above to watch the demo video.
+
+## Installation
+
+Follow these steps to get your project up and running.
+
+### Prerequisites
+
+Before you begin, make sure you have the following installed:
+
+- [Python](https://www.python.org/) (version 3)
+- [Pip](https://pip.pypa.io/en/stable/installation/) (Python package installer)
+
+### Clone the Repository
+
+```bash
+git clone https://github.com/your-username/your-project.git
+```
+
+### Navigate to the Project Directory
+
+```bash
+git clone https://github.com/your-username/your-project.git
+```
+
+### Create a Virtual Environment (Optional but recommended)
+
+```bash
+python -m venv venv
+```
+
+### Activate the Virtual Environment
+
+- On Windows:
+  
+  ```bash
+   venv\Scripts\activate
+  ```
+
+- On macOS/Linux:
+  
+  ```bash
+  source venv/bin/activate
+  ```
+
+### Apply migrations
+
+```bash
+python manage.py migrate
+```
+
+### Create a Superuser (Optional but recommended)
+
+```bash
+python manage.py createsuperuser
+```
+
+### Run the Development Server
+
+```bash
+python manage.py runserver
+```
+
+Visit http://localhost:8000/ in your browser to see the application.
+
+### License
+
+This project is licensed under the MIT - see the LICENSE.md file for details.
