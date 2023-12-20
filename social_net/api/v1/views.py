@@ -4,7 +4,8 @@ from social_net.models import Post, Comment, Like
 from social_net.api.v1.serializers import PostSerializer, CommentSerializer, LikeSerializer
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
-from django.db.models import Count, Subquery, OuterRef
+from django.db.models import Count, Subquery, OuterRef, F, Value
+from django.db.models.functions import Coalesce
 
 
 class CustomPageNumberPagination(PageNumberPagination):
@@ -66,14 +67,14 @@ class PostListViewTopLikes(generics.ListAPIView):
         The response is paginated using CustomPageNumberPagination.
     """
     queryset = Post.objects.annotate(
-        likes_count=Subquery(
+        likes_count=Coalesce(Subquery(
             Like.objects.filter(post=OuterRef('pk')).values('post').annotate(
                 like_count=Count('id')).values('like_count')[:1]
-        ),
-        comments_count=Subquery(
+        ), Value(0)),
+        comments_count=Coalesce(Subquery(
             Comment.objects.filter(post=OuterRef('pk')).values('post').annotate(
                 comment_count=Count('id')).values('comment_count')[:1]
-        )
+        ), Value(0))
     ).order_by('-likes_count', '-comments_count', '-date_created')
     serializer_class = PostSerializer
     pagination_class = CustomPageNumberPagination
@@ -81,7 +82,7 @@ class PostListViewTopLikes(generics.ListAPIView):
 
 class PostListViewTopComments(generics.ListAPIView):
     """
-    API view for retrieving a list of posts ordered by the number of comments 
+    API view for retrieving a list of posts ordered by the number of comments
     and likes.
 
     Each post is annotated with the counts of likes and comments, and the queryset
@@ -110,14 +111,14 @@ class PostListViewTopComments(generics.ListAPIView):
         The response is paginated using CustomPageNumberPagination.
     """
     queryset = Post.objects.annotate(
-        likes_count=Subquery(
+        likes_count=Coalesce(Subquery(
             Like.objects.filter(post=OuterRef('pk')).values('post').annotate(
                 like_count=Count('id')).values('like_count')[:1]
-        ),
-        comments_count=Subquery(
+        ), Value(0)),
+        comments_count=Coalesce(Subquery(
             Comment.objects.filter(post=OuterRef('pk')).values('post').annotate(
                 comment_count=Count('id')).values('comment_count')[:1]
-        )
+        ), Value(0))
     ).order_by('-comments_count', '-likes_count', '-date_created')
     serializer_class = PostSerializer
     pagination_class = CustomPageNumberPagination
