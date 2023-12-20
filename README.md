@@ -13,11 +13,15 @@
 - [Demo Video](#demo-video)
 - [Installation](#installation)
 - [Deployement](#deployement)
+- [Future Enhancements](#future-enhancements)
+- [Acknowledgments](#acknowledgments)
 - [License](#license)
 
 ## Introduction
 
-LifeLoader is an engaging platform where every moment is loaded with shared experiences, share your thoughts, engage in discussions, and build connections, The website is already live, and you can explore it [here](https://lifeloader.omarkhaled.tech/). Please note that the current domain name might not be available in the future, as this project was developed for practice, and the domain may not be renewed. Dive in, explore, and become a part of the LifeLoader community!"
+LifeLoader invites you to explore a vibrant platform where shared experiences come to life. Engage in thoughtful discussions, share your thoughts, and build meaningful connections. The website is live and and you can explore it [here](https://lifeloader.omarkhaled.tech/). Please note that for the best experience, we recommend visiting LifeLoader on a PC or laptop. As the project primarily focuses on backend development and system configuration, the current frontend may have some limitations on mobile devices. Dive in, explore, and become a part of the LifeLoader community!
+
+Note: The current domain name might not be available in the future, as this project was developed for practice, and the domain may not be renewed.
 
 ## Technologies used
 
@@ -661,6 +665,28 @@ Datadog was used for monitoring
   ![Monitoring Screenshot](images/monitoring.png)
 </details>
 
-### License
+## Future Enhancements
+
+### Frontend Improvements
+
+- Mobile Responsiveness: Enhance the frontend to ensure a seamless and responsive experience on various devices, especially mobile phones and small screens.
+- User Interface Refinement: Optimize layout and styling to improve overall user experience.
+
+### Backend Features
+
+- Media Posts:
+      - Expand content options by allowing users to create and share media posts, including pictures and videos.
+      - Implement image and video upload functionalities to enhance user-generated content.
+
+- More User Interaction:
+      - Implement a "Follow" feature, allowing users to follow each other and receive updates on their activities.
+      - Introduce a chat functionality, enabling users to communicate with each other in real-time.
+- Notification System: Introduce a notification system to keep users informed about new followers, likes, comments, and other relevant activities.
+
+## Acknowledgments
+
+Special thanks to ALX for providing the servers and domain names for this project. In addition to their guidance and mentorship during my journey through the foundations stage in the software engineering track.
+
+## License
 
 This project is licensed under the MIT - see the LICENSE file for details.
